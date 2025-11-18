@@ -1,28 +1,19 @@
 //Example usage of xipslib.c
 
 //Set paths to files
-#define IPS_FILE "E:\\example\\patch.ips"
-#define SRC_FILE "E:\\example\\default.xbe"
-#define BAK_FILE "E:\\example\\default.xbe.bak"
-#define LOG_FILE "E:\\example\\debug.log"
+#define IPS_FILE "F:\\example\\patch.ips"
+#define SRC_FILE "F:\\example\\default.xbe"
+#define BAK_FILE "F:\\example\\default.xbe.bak"
+#define LOG_FILE "F:\\example\\debug.log"
 
 #include <stdio.h>
 #include <xtl.h>
-#include <string.h>
 #include <time.h>
 #include "xipslib.h"
 
-//Log entry strings
-static unsigned char CREATINGBAK[] = "Creating backup file..";
-static unsigned char BAKCREATED[] = "Backup file created successfully.";
-static unsigned char BAKFAILED[] = "Backup file creation failed!";
-static unsigned char PATCHINGSRC[] = "Patching source file..";
-static unsigned char PATCHSUCCESS[] = "Source file patched successfully.";
-static unsigned char PATCHFAILED[] = "Patching of source file failed!";
-static unsigned char LOGOPEN[] = "Log file opened.";
-static unsigned char LOGCLOSE[] = "Closing log file..";
-
-void logEntry(unsigned char ENTRY[]);
+bool openLog();
+void closeLog();
+void logEntry(char ENTRY[]);
 void ReturnToDash();
 void mountAllDrives();
 
@@ -30,36 +21,72 @@ FILE* lf = NULL;
 
 //Program entry point
 VOID __cdecl main() {
+	
 	mountAllDrives();
+	openLog();
 
-	if (LOG_FILE != NULL) lf = fopen(LOG_FILE, "a");
-	logEntry(LOGOPEN);
-	logEntry(CREATINGBAK);
-	if (createBak(SRC_FILE, BAK_FILE)) logEntry(BAKCREATED);
-	else {
-		logEntry(BAKFAILED);
-		logEntry(LOGCLOSE);
-		if (lf != NULL) fclose(lf);
-		return;
+	logEntry("Creating backup file..");
+	switch (createBak(SRC_FILE, BAK_FILE)) {
+		case 0:
+			logEntry("Backup file created successfully.");
+			break;
+		case E_FOPEN_SRC: 
+			logEntry("Error opening source file!");
+			closeLog();
+			ReturnToDash();
+			return; 
+		case E_FOPEN_DST:
+			logEntry("Error creating backup file!");
+			closeLog();
+			ReturnToDash();
+			return;
 	}
 
-	logEntry(PATCHINGSRC);
-	if (applyIPS(IPS_FILE, SRC_FILE)) logEntry(PATCHSUCCESS);
-	else {
-		logEntry(PATCHFAILED);
-		logEntry(LOGCLOSE);
-		if (log != NULL) fclose(lf);
-		return;
+	logEntry("Patching source file..");
+	switch(applyIPS(IPS_FILE, SRC_FILE)) {
+		case 0: 
+			logEntry("Source file patched successfully.");
+			break;
+		case E_FOPEN_IPS:
+			logEntry("Error opening IPS file!");
+			closeLog();
+			ReturnToDash();
+			return;
+		case E_FOPEN_SRC:
+			logEntry("Error opening source file!");
+			closeLog();
+			ReturnToDash();
+			return;
+		case E_NOT_IPS:
+			logEntry("The IPS file is not a valid IPS file!");
+			closeLog();
+			ReturnToDash();
+			return;
 	}
 
-	logEntry(LOGCLOSE);
-	if (log != NULL) fclose(lf);
+	closeLog();
 	ReturnToDash();
 	return;
 }
 
-//Append log entry
-void logEntry(unsigned char ENTRY[]) {
+
+
+//Log file functions
+bool openLog() {
+	if (LOG_FILE != NULL) {
+		lf = fopen(LOG_FILE, "a");
+		if (!lf) return false;
+		logEntry("Log file opened.");
+		return true;
+	}
+}
+void closeLog() {
+	if (lf != NULL) {
+		logEntry("Closing log file..");
+		fclose(lf);
+	}
+}
+void logEntry(char ENTRY[]) {
 	if (lf != NULL) {
 		time_t now = time(NULL);
 		struct tm* lt = localtime(&now);

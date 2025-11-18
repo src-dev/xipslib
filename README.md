@@ -35,7 +35,6 @@ if (applyIPS(IPS_FILE, SRC_FILE)) {
 
 ### TODO
 - More testing
-- Better error handling and reporting
 - Add a patch memory function
 - ???
 

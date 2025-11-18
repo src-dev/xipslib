@@ -1,19 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "xipslib.h"
 
 static unsigned char _PATCH[] = { 0x50,0x41,0x54,0x43,0x48 };
 static unsigned char _EOF[] = { 0x45,0x4F,0x46 };
 
-bool createBak(const char* src, const char* dst) {
+int createBak(const char* src, const char* dst) {
     FILE* fsrc = fopen(src, "rb");
-    if (!fsrc) return false;
+    if (!fsrc) return E_FOPEN_SRC;
 
     FILE* fdst = fopen(dst, "wb");
     if (!fdst) {
         fclose(fsrc);
-        return false;
+        return E_FOPEN_DST;
     }
 
     int c;
@@ -21,24 +20,24 @@ bool createBak(const char* src, const char* dst) {
 
     fclose(fsrc);
     fclose(fdst);
-    return true;
+    return 0;
 }
 
-bool applyIPS(const char* ips, const char* src) {
+int applyIPS(const char* ips, const char* src) {
     FILE* fips = fopen(ips, "rb");
-    if (!fips) return false;
+    if (!fips) return E_FOPEN_IPS;
 
     char buf[5] = { 0 };
     fread(buf, 1, 5, fips);
     if (memcmp(buf, _PATCH, 5) != 0) {
         fclose(fips);
-        return false;
+        return E_NOT_IPS;
     }
 
     FILE* fsrc = fopen(src, "rb+");
     if (!fsrc) {
         fclose(fips);
-        return false;
+        return E_FOPEN_SRC;
     }
 
     for (;;) {
@@ -55,7 +54,7 @@ bool applyIPS(const char* ips, const char* src) {
         if (data == NULL) {
             fclose(fips);
             fclose(fsrc);
-            return false;
+            return E_OUT_OF_MEMORY;
         }
 
         fread(data, 1, s, fips);
@@ -68,5 +67,5 @@ bool applyIPS(const char* ips, const char* src) {
     fclose(fips);
     fclose(fsrc);
 
-    return true;
+    return 0;
 }
