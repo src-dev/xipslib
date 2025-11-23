@@ -14,6 +14,7 @@ switch (createBak(SRC_FILE, BAK_FILE)) {
   case E_NO_ERROR:
     //Backup created successfully
     break;
+
   default:
     //Backup creation failed
 }
@@ -25,6 +26,7 @@ switch (applyIPS(IPS_FILE, SRC_FILE)) {
   case E_NO_ERROR:
     //File patched successfully
     break;
+
   default:
     //File patching failed
 }
