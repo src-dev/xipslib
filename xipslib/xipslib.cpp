@@ -45,7 +45,7 @@ int createBak(const char* src, const char* ext, bool ovr) {
     return E_NO_ERROR;
 }
 
-int restoreBak(const char* src, const char* ext, bool ovr) {
+int restoreBak(const char* src, const char* ext, bool ovr, bool del) {
     FILE* fsrc = fopen(src, "rb");
     if (!fsrc) return E_FOPEN_SRC;
 
@@ -79,7 +79,7 @@ int restoreBak(const char* src, const char* ext, bool ovr) {
 
     fclose(fsrc);
     fclose(fdst);
-    remove(src);
+    if (del) remove(src);
     return E_NO_ERROR;
 }
 

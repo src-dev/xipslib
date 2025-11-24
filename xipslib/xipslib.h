@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 	int createBak(const char* src, const char* ext, bool ovr);
-	int restoreBak(const char* src, const char* ext, bool ovr);
+	int restoreBak(const char* src, const char* ext, bool ovr, bool del);
 	int applyIPS(const char* ips, const char* src);
 
 #ifdef __cplusplus
