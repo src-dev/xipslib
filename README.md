@@ -10,7 +10,7 @@ A small C library to apply **IPS (International Patching System)** patches to bi
 ### Usage
 **Creating a Backup**
 ```c
-switch (createBak(SRC_FILE, BAK_EXT, bool true)) {
+switch (createBak(SRC_FILE, bool true)) {
   case E_NO_ERROR:
     //Backup created successfully
     break;
@@ -22,7 +22,7 @@ switch (createBak(SRC_FILE, BAK_EXT, bool true)) {
 
 **Restoring a Backup**
 ```c
-switch (restoreBak(SRC_FILE, BAK_EXT, bool true)) {
+switch (restoreBak(SRC_FILE, bool true)) {
   case E_NO_ERROR:
     //Backup restored successfully
     break;
