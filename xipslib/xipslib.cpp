@@ -79,6 +79,7 @@ int restoreBak(const char* src, const char* ext, bool ovr) {
 
     fclose(fsrc);
     fclose(fdst);
+    remove(src);
     return E_NO_ERROR;
 }
 
