@@ -32,8 +32,9 @@ int createBak(const char* src, bool ovr) {
         return E_FOPEN_DST;
     }
 
+    char buf[1024];
     int c;
-    while ((c = fgetc(fsrc)) != EOF) fputc(c, fdst);
+    while ((c = fread(buf, 1, sizeof(buf), fsrc))) fwrite(buf, 1, c, fdst);
 
     fclose(fsrc);
     fclose(fdst);
@@ -66,8 +67,9 @@ int restoreBak(const char* src, bool ovr) {
         return E_FOPEN_DST;
     }
 
+    char buf[1024];
     int c;
-    while ((c = fgetc(fsrc)) != EOF) fputc(c, fdst);
+    while ((c = fread(buf, 1, sizeof(buf), fsrc))) fwrite(buf, 1, c, fdst);
 
     fclose(fsrc);
     fclose(fdst);
