@@ -10,19 +10,25 @@ A small C library to apply **IPS (International Patching System)** patches to bi
 ### Usage
 **Creating a Backup**
 ```c
-if (createBak(SRC_FILE, BAK_FILE)) {
-  //Backup created successfully
-} else {
-  //Backup creation failed
+switch (createBak(SRC_FILE, BAK_FILE)) {
+  case E_NO_ERROR:
+    //Backup created successfully
+    break;
+
+  default:
+    //Backup creation failed
 }
 ```
 
 **Applying an IPS Patch**
 ```c
-if (applyIPS(IPS_FILE, SRC_FILE)) {
-  //File patched successfully
-} else {
-  //File patching failed
+switch (applyIPS(IPS_FILE, SRC_FILE)) {
+  case E_NO_ERROR:
+    //File patched successfully
+    break;
+
+  default:
+    //File patching failed
 }
 ```
 
