@@ -111,5 +111,5 @@ int applyIPS(const char* ips, const char* src) {
     fclose(fips);
     fclose(fsrc);
 
-    return 0;
+    return E_NO_ERROR;
 }
