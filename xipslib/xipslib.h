@@ -19,7 +19,7 @@ typedef enum {
 extern "C" {
 #endif
 
-	int CheckIPS(const char* ips);
+	int CheckIPS(FILE* fips);
 
 	int CreateBak(const char* src, bool ovr);
 
