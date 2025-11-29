@@ -7,6 +7,8 @@ static unsigned char _PATCH[] = { 0x50,0x41,0x54,0x43,0x48 };
 static unsigned char _EOF[] = { 0x45,0x4F,0x46 };
 
 int CheckIPS(FILE* fips) {
+    if (fseek(fips, 0, SEEK_SET) != 0) return E_FSEEK_IPS;
+
     char header[5];
     if ((fread(header, 1, 5, fips) != 5) || (memcmp(header, _PATCH, 5) != 0)) return E_NOT_IPS;
 
