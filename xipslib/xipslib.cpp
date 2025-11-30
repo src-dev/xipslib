@@ -68,14 +68,18 @@ int CreateBak(const char* src, bool ovr) {
     while ((c = fread(buf, 1, 65536, fsrc))) {
         if (fwrite(buf, 1, c, fdst) != c) {
             free(buf);
+
+            fclose(fsrc);
+            fclose(fdst);
+
             return E_FWRITE_DST;
         }
     }
 
+    free(buf);
+
     fclose(fsrc);
     fclose(fdst);
-
-    free(buf);
 
     return E_NO_ERROR;
 }
