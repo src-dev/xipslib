@@ -37,7 +37,7 @@ int CheckIPS(FILE* fips) {
 }
 
 int CreateBak(const char* src, bool ovr) {
-    char dst[1024];
+    char dst[512];
 
     strcpy(dst, src);
     strcat(dst, ".bak");
@@ -81,7 +81,7 @@ int CreateBak(const char* src, bool ovr) {
 }
 
 int RestoreBak(const char* src, bool ovr) {
-    char dst[1024];
+    char dst[512];
 
     strcpy(dst, src);
     dst[strlen(src) - 4] = '\0';

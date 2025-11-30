@@ -62,6 +62,8 @@ VOID __cdecl main() {
 		}
 	}
 
+	free(bak);
+
 	logEntry("Creating backup file..");
 	switch (CreateBak(SRC_FILE, true)) {
 	case E_NO_ERROR:
@@ -124,8 +126,6 @@ VOID __cdecl main() {
 	}
 
 	closeLog();
-
-	free(bak);
 
 	ReturnToDash();
 	return;
