@@ -5,7 +5,6 @@
 #define SRC_FILE "F:\\example\\default.xbe"
 #define LOG_FILE "F:\\example\\debug.log"
 
-#include <stdio.h>
 #include <xtl.h>
 #include <time.h>
 #include "xipslib.h"
