@@ -5,9 +5,11 @@
 #define SRC_FILE "F:\\example\\default.xbe"
 #define LOG_FILE "F:\\example\\debug.log"
 
-#include <xtl.h>
-#include <time.h>
-#include "xipslib.h"
+#include <XTL.h>
+#include <StdIO.h>
+#include <Time.h>
+#include "../xpatchlib/xpatchlib.h"
+#include "../xpatchlib/xips.h"
 
 bool openLog();
 void closeLog();
@@ -36,27 +38,9 @@ VOID __cdecl main() {
 			case E_NO_ERROR:
 				logEntry("Backup file restored successfully.");
 				break;
-			case E_FOPEN_SRC:
-				logEntry("Error opening backup file!");
-				closeLog();
-				ReturnToDash();
-				return;
-			case E_FOPEN_DST:
-				logEntry("Error restoring backup file!");
-				closeLog();
-				ReturnToDash();
-				return;
-			case E_CANNOT_OVR:
-				logEntry("Original already exists and you have specified no override.");
-				closeLog();
-				ReturnToDash();
-				return;
-			case E_REN_ERROR:
-				logEntry("Renaming failed. The file may be protected!");
-				closeLog();
-				ReturnToDash();
-				return;
-
+			default:
+				logEntry("An error occured!");
+				break;
 			}
 		}
 	}
@@ -64,64 +48,23 @@ VOID __cdecl main() {
 	free(bak);
 
 	logEntry("Creating backup file..");
-	switch (CreateBak(SRC_FILE, true)) {
+	switch (CreateBak(SRC_FILE, true, NULL)) {
 	case E_NO_ERROR:
 		logEntry("Backup file created successfully.");
 		break;
-	case E_FOPEN_SRC: 
-		logEntry("Error opening source file!");
-		closeLog();
-		ReturnToDash();
-		return; 
-	case E_FOPEN_DST:
-		logEntry("Error creating backup file!");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_CANNOT_OVR:
-		logEntry("Backup already exists and you have specified no override.");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_FWRITE_DST:
-		logEntry("A write error occured while creating the backup!");
-		closeLog();
-		ReturnToDash();
-		return;
-
+	default:
+		logEntry("An error occured!");
+		break;
 	}
 
 	logEntry("Patching source file..");
-	switch(ApplyIPS(IPS_FILE, SRC_FILE)) {
-	case E_NO_ERROR: 
+	switch (ApplyIPS(IPS_FILE, SRC_FILE)) {
+	case E_NO_ERROR:
 		logEntry("Source file patched successfully.");
 		break;
-	case E_FOPEN_IPS:
-		logEntry("Error opening IPS file!");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_FOPEN_SRC:
-		logEntry("Error opening source file!");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_NOT_IPS:
-		logEntry("The IPS file is not a valid IPS file!");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_BAD_IPS:
-		logEntry("Bad or corrupted IPS file.");
-		closeLog();
-		ReturnToDash();
-		return;
-	case E_FSEEK_SRC:
-		logEntry("The IPS specifies an offset out of range.");
-		closeLog();
-		ReturnToDash();
-		return;
-
+	default:
+		logEntry("An error occured!");
+		break;
 	}
 
 	closeLog();

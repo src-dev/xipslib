@@ -13,15 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="example">
+      <UniqueIdentifier>{1118d7d6-fac8-49b7-9695-ae2e60ab24aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="xipslib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="xipslib.h">
+    <ClInclude Include="xips.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="xpatchlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xbps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="xips.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xpatchlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\example\main.cpp">
+      <Filter>example</Filter>
+    </ClCompile>
+    <ClCompile Include="xups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xbps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
