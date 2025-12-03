@@ -1,6 +1,6 @@
 # xpatchlib
 
-A small C library to apply **IPS, UPS, BPS** patches to binary files on Xbox. It also supports creating backup copies of the original file before patching.
+A small C++ library to apply **IPS, UPS, BPS** patches to binary files on Xbox. It also supports creating backup copies of the original file before patching.
 
 ### Features
 
